@@ -21,6 +21,7 @@
             <li><a href="#" class="button primary fit">Get Started</a></li>
             <?php if (checkLogin()) { ?>
                 <!-- user is logged in -->
+                <li><a href="<?= APP_URL ?>/dashboard.php" class="button fit">Dashboard</a></li>
                 <li><a href="<?= APP_URL ?>/logout.php" class="button fit">Logout</a></li>
             <?php } else { ?>
                 <!-- user is not logged in -->
