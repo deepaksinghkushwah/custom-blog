@@ -1,4 +1,12 @@
-<?php include 'config.php';?>
+<?php
+include 'config.php';
+checkLogin();
+if (isset($_POST['btnSaveBlog'])) {
+	$title = $_POST['title'];
+	$content = $_POST['content'];
+	createBlog($conn, $title, $content, $_SESSION['user']['id']);
+}
+?>
 <!DOCTYPE HTML>
 <!--
 	Forty by HTML5 UP
@@ -11,10 +19,10 @@
 	<title>Generic - Forty by HTML5 UP</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="<?=APP_URL?>/theme/assets/css/main.css" />
+	<link rel="stylesheet" href="<?= APP_URL ?>/theme/assets/css/main.css" />
 	<link rel="stylesheet" href="./theme/assets/js/jqte/jquery-te-1.4.0.css">
 	<noscript>
-		<link rel="stylesheet" href="<?=APP_URL?>/theme/assets/css/noscript.css" />
+		<link rel="stylesheet" href="<?= APP_URL ?>/theme/assets/css/noscript.css" />
 	</noscript>
 </head>
 
@@ -39,7 +47,7 @@
 			</tr>
 		</table>
 	</form>
-	
+
 	<?php include './includes/footer.php'; ?>
 	<script src="./theme/assets/js/jqte/jquery-te-1.4.0.min.js"></script>
 	<script>

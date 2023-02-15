@@ -9,6 +9,7 @@ if (!$conn) {
 }
 
 include_once './functions/users.php';
+include_once './functions/blogs.php';
 
 if (isset($_POST['btnEmail'])) {
     $name = $_POST['name'];

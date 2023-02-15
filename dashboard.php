@@ -27,7 +27,8 @@ isAuthorized();
 	<header class="major">
 		<h1>Dashboard</h1>
 	</header>
-	<a href="<?=APP_URL.'/blog-create.php'?>">Create New Blog</a>
+	<p><a class="btn" href="<?=APP_URL.'/blog-create.php'?>">Create New Blog</a></p>
+	<?php include './blog-list.php'; ?>
 	<?php include './includes/footer.php'; ?>
 
 </body>

@@ -4049,3 +4049,18 @@ body.is-menu-visible #menu .inner {
 	background-color: red;
 	color: white;
   }
+
+  .btn {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    border: 2px solid wheat;
+    padding: 10px 14px;
+    font-weight: bold;
+  }
+
+  .btn:hover {
+    background-color: black;
+    color: white;    
+    border: 2px solid black;
+  }
