@@ -7,7 +7,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'custom_blog_deepak');
 if (!$conn) {
     die("Error at connection with server " . mysqli_connect_error());
 }
-
+include_once './vendor/autoload.php';
 include_once './functions/users.php';
 include_once './functions/blogs.php';
 
