@@ -1,16 +1,16 @@
-<?php 
+<?php
 include 'config.php';
 
-	$sql = "SELECT * FROM `blogs` WHERE id = '".mysqli_real_escape_string($conn, $_GET['id'])."'";
-	$result = mysqli_query($conn,$sql);
-	if($result){
-		$blog = mysqli_fetch_assoc($result);
-	} else {
-		$_SESSION['err_msg'] = "Blog not found";
-		header('location: '.APP_URL.'/index.php');
-		exit;
-	}
-	
+$sql = "SELECT * FROM `blogs` WHERE id = '" . mysqli_real_escape_string($conn, $_GET['id']) . "'";
+$result = mysqli_query($conn, $sql);
+if ($result && mysqli_num_rows($result) > 0) {
+	$blog = mysqli_fetch_assoc($result);
+} else {
+	$_SESSION['err_msg'] = "Blog not found";
+	header('location: ' . APP_URL . '/index.php');
+	exit;
+}
+
 ?>
 <!DOCTYPE HTML>
 <!--
@@ -21,23 +21,23 @@ include 'config.php';
 <html>
 
 <head>
-	<title><?=$blog['title']?></title>
+	<title><?= $blog['title'] ?></title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="<?=APP_URL?>/theme/assets/css/main.css" />
+	<link rel="stylesheet" href="<?= APP_URL ?>/theme/assets/css/main.css" />
 	<noscript>
-		<link rel="stylesheet" href="<?=APP_URL?>/theme/assets/css/noscript.css" />
+		<link rel="stylesheet" href="<?= APP_URL ?>/theme/assets/css/noscript.css" />
 	</noscript>
 </head>
 
 <body class="is-preload">
 	<?php include './includes/header.php'; ?>
 
-	<header class="major">
-		<h1><?= $blog['title']?></h1>
-	</header>
-	
-	<?=$blog['content']?>
+
+	<h1 style="text-align: justify;"><?= $blog['title'] ?></h1>
+
+
+	<?= $blog['content'] ?>
 	<?php include './includes/footer.php'; ?>
 
 </body>
