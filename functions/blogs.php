@@ -14,11 +14,25 @@ function createBlog($conn, $title, $content, $createdBy)
     exit;
 }
 
+function updateBlog($conn, $id, $title, $content, $createdBy)
+{
+    $sql = "UPDATE `blogs` SET `title` = '$title', `content` = '$content' WHERE `created_by` = '$createdBy' AND id = '$id'";
+    mysqli_query($conn, $sql);
+    if (mysqli_affected_rows($conn) > 0) {
+        $_SESSION['msg'] = 'Blog updated';
+    } else {
+        exit(mysqli_error($conn));
+    }
+
+    header('location: ' . APP_URL . '/dashboard.php');
+    exit;
+}
+
 function populateDemoData($conn)
 {
     $faker = Faker\Factory::create();
     
-    for ($i = 1; $i <= 1000; $i++) {
+    for ($i = 1; $i <= 100; $i++) {
         $title = $faker->sentence(30);
         $content = mysqli_real_escape_string($conn,$faker->paragraph(5));
         $createdBy = $_SESSION['user']['id'];
