@@ -303,7 +303,7 @@ h6 a {
 }
 
 h1 {
-  font-size: 2.5em;
+  font-size: 2.5em;  
 }
 
 h2 {
@@ -4063,4 +4063,33 @@ body.is-menu-visible #menu .inner {
     background-color: black;
     color: white;    
     border: 2px solid black;
+  }
+
+  .blogRow {
+    display: flex;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    min-height: 120px;    
+  }
+
+  .blogTitle {
+    font-weight: bold;
+    font-size: 18px;
+
+  }
+
+  .blogAddDate {
+    font-size: 12px;
+  }
+
+  .major h1 {
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
