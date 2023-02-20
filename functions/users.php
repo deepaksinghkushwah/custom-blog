@@ -51,19 +51,27 @@ function login($conn, $username, $password)
         if ($user) {
             // user is found, now match the password
             if ($user['password'] == md5($password)) {
+                // password matched
                 $_SESSION['isLoggedIn'] = true;
                 unset($user['password']);
                 $_SESSION['user'] = $user;
                 $_SESSION['msg'] = "You are logged in succesfully";
                 header('location: ' . APP_URL . '/dashboard.php');
                 exit;
+            } else {
+                // password not matched
+                $_SESSION['err_msg'] = "Invalid credentials";
+                header('location: ' . APP_URL . '/login.php');
+                exit;    
             }
         } else {
+            // user not found
             $_SESSION['err_msg'] = "Invalid credentials";
             header('location: ' . APP_URL . '/login.php');
             exit;
         }
     } else {
+        // no record found for user
         $_SESSION['err_msg'] = "Invalid credentials";
         header('location: ' . APP_URL . '/login.php');
         exit;
