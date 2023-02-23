@@ -38,6 +38,14 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 
 	<?= $blog['content'] ?>
+	<?php
+	if (checkLogin()) {
+		include './comment_form.php';
+	}
+
+	include './comment_list.php';
+
+	?>
 	<?php include './includes/footer.php'; ?>
 
 </body>

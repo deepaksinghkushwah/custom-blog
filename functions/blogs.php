@@ -45,3 +45,16 @@ function populateDemoData($conn)
         }        
     }
 }
+
+function addComment($conn, $blogID, $comment, $userID){
+    $sql = "INSERT INTO `comments` SET `created_by` = '$userID', `blog_id` = '$blogID', `comment` = '$comment', `created_at` = '".date('Y-m-d H:i')."'";
+    mysqli_query($conn, $sql);
+    if (mysqli_affected_rows($conn) > 0) {
+        $_SESSION['msg'] = "Comment Added";
+        header('location: '.APP_URL.'/blog-detail.php?id='.$blogID);
+        exit;
+    } else {
+        exit(mysqli_error($conn));
+    }      
+    
+}
