@@ -1,15 +1,16 @@
 <?php
 session_start();
 define("APP_URL", "http://custom-blog-deepak.local");
+define('SITE_FS_PATH', dirname(__FILE__)); // to get absolute path
 
 $conn = mysqli_connect('localhost', 'root', '', 'custom_blog_deepak');
 
 if (!$conn) {
     die("Error at connection with server " . mysqli_connect_error());
 }
-include_once './vendor/autoload.php';
-include_once './functions/users.php';
-include_once './functions/blogs.php';
+include_once SITE_FS_PATH.'/vendor/autoload.php';
+include_once SITE_FS_PATH.'/functions/users.php';
+include_once SITE_FS_PATH.'/functions/blogs.php';
 
 if (isset($_POST['btnEmail'])) {
     $name = $_POST['name'];

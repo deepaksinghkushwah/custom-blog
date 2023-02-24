@@ -4,6 +4,27 @@
  * All user related function will goes here
  */
 
+function isAdmin()
+{
+    if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true && $_SESSION['user']['role_id'] == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isAuthorizedAdmin()
+{
+    if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true && $_SESSION['user']['role_id'] == 1) {
+        return true;
+    } else {
+        $_SESSION['err_msg'] = 'You are not authroziedd to view this page.';
+        header('location: ' . APP_URL . '/login.php');
+        exit;
+    }
+}
+
+
 function checkLogin()
 {
     if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] == true) {
@@ -12,6 +33,7 @@ function checkLogin()
         return false;
     }
 }
+
 
 function isAuthorized()
 {
@@ -34,7 +56,7 @@ function regiterUser($conn, $username, $password, $email)
         exit;
     } else {
         $password = md5($password);
-        $sql = "INSERT INTO `users` SET `username` = '$username', `password` = '$password', `email` = '$email' ";
+        $sql = "INSERT INTO `users` SET `username` = '$username', `password` = '$password', `email` = '$email', role_id = '2' ";
         mysqli_query($conn, $sql);
         $_SESSION['msg'] = "You are regisreted succesfully, please login";
         header('location: ' . APP_URL . '/login.php');

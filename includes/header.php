@@ -13,9 +13,14 @@
     <nav id="menu">
         <ul class="links">
             <li><a href="index.php">Home</a></li>
-            
+
         </ul>
-        <ul class="actions stacked">            
+        <ul class="actions stacked">
+
+            <?php if (isAdmin()) { ?>
+                <li><a href="<?= APP_URL ?>/admin/index.php" class="button fit">Admin Panel</a></li>
+            <?php } ?>
+
             <?php if (checkLogin()) { ?>
                 <!-- user is logged in -->
                 <li><a href="<?= APP_URL ?>/dashboard.php" class="button fit">Dashboard</a></li>
@@ -35,4 +40,4 @@
         <!-- One -->
         <section id="one">
             <div class="inner">
-                <?php include './includes/message.php';?>
+                <?php include './includes/message.php'; ?>
