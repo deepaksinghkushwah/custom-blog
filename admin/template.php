@@ -29,8 +29,7 @@ isAuthorizedAdmin();
                     <div class="btn-toolbar mb-2 mb-md-0">
                         &nbsp;
                     </div>
-                </div>
-                <h2>Section title</h2>
+                </div>                
                 <div class="table-responsive">
                     Main Part
                 </div>
