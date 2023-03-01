@@ -1,6 +1,20 @@
 <?php
 include '../config.php';
 isAuthorizedAdmin();
+if(isset($_GET['action'])){
+    $action = $_GET['action'];
+    switch($action){
+        case 'changeStatus':
+            $status= $_GET['status'];
+            $id = $_GET['id'];
+            $sql ="UPDATE `comments` SET `status` = '$status' WHERE `id` = '$id'";
+            mysqli_query($conn, $sql);
+            $_SESSION['msg'] = "Comment status changed";
+            header('location: '.APP_URL.'/admin/comments.php');
+            exit;
+            break;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +58,46 @@ isAuthorizedAdmin();
                     </div>
                 </div>
                 <div class="table-responsive">
-                    Main Part
+                <?php include './includes/message.php'; ?>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="45%">Comment</th>
+                                <th width="25%">Comment By</th>
+                                <th width="25%">Article</th>
+                                <th width="15%">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+                            $sql = "SELECT comments.*, blogs.title AS article, users.username AS commented_by
+                            FROM `comments`
+                            LEFT JOIN users ON users.id = comments.created_by
+                            LEFT JOIN blogs ON blogs.id = comments.blog_id
+                            ORDER BY id DESC";
+                            $results = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($results) > 0) {
+                                while ($comment = mysqli_fetch_assoc($results)) {
+                            ?>
+                                    <tr>
+                                        <td><?= $comment['comment'] ?></td>
+                                        <td><?=$comment['commented_by']?></td>
+                                        <td><?= $comment['article'] ?></td>
+                                        <td>
+                                            <?php if ($comment['status'] == 1) { ?>
+                                                <a href="<?=APP_URL.'/admin/comments.php?action=changeStatus&status=0&id='.$comment['id']?>">Unpublish</a>
+                                            <?php } else { ?>
+                                                <a href="<?=APP_URL.'/admin/comments.php?action=changeStatus&status=1&id='.$comment['id']?>">Publish</a>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </main>
         </div>

@@ -8,6 +8,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="<?=APP_URL.'/admin/comments.php'?>">
+                    <span data-feather="file" class="align-text-bottom"></span>
+                    Manage Comments
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<?=APP_URL.'/admin/blogs.php'?>">
                     <span data-feather="file" class="align-text-bottom"></span>
                     Manage Blogs

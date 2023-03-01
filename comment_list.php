@@ -1,6 +1,6 @@
 <table>
     <?php
-    $sql = "SELECT c.*, u.username FROM `comments` c LEFT JOIN `users`u ON u.id = c.created_by WHERE c.blog_id = '".$_GET['id']."' ORDER BY c.id DESC";
+    $sql = "SELECT c.*, u.username FROM `comments` c LEFT JOIN `users`u ON u.id = c.created_by WHERE c.blog_id = '".$_GET['id']."' AND c.status = 1 ORDER BY c.id DESC";
     $result = mysqli_query($conn, $sql); 
     if(mysqli_num_rows($result) > 0){
         while($row = mysqli_fetch_assoc($result)){

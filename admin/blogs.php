@@ -31,6 +31,7 @@ isAuthorizedAdmin();
                     </div>
                 </div>                
                 <div class="table-responsive">
+                <?php include './includes/message.php'; ?>
                     Main Part
                 </div>
             </main>
