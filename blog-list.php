@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
                     <td><?=date('d M Y', strtotime($row['created_at']))?></td>
                     <td>
                         <a class="btn" href="<?=APP_URL.'/blog-edit.php?id='.$row['id']?>">Edit</a> | 
-                        <a class="btn" href="<?=APP_URL.'/blog-delete.php?id='.$row['id']?>">Delete</a>
+                        <a class="btn" href="<?=APP_URL.'/dashboard.php?action=deleteBlog&id='.$row['id']?>">Delete</a>
                     </td>
                 </tr>
             <?php } ?>

@@ -11,6 +11,13 @@ if ($result && mysqli_num_rows($result) > 0) {
 	exit;
 }
 
+if(isset($_POST['btnSaveComment'])){
+    $blogID = $_POST['blog_id'];
+    $comment =  $_POST['comment'];
+    addComment($conn, $blogID, $comment, $_SESSION['user']['id']);
+}
+
+
 ?>
 <!DOCTYPE HTML>
 <!--

@@ -1,7 +1,12 @@
 <?php 
 include 'config.php';
 isAuthorized();
-
+//populateDemoData($conn);
+if(isset($_GET['action'])){
+    if($_GET['action'] == 'deleteBlog'){
+        deleteBlog($conn, $_GET['id'], $_SESSION['user']['id']);
+    }
+}
 ?>
 <!DOCTYPE HTML>
 <!--

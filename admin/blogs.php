@@ -1,6 +1,11 @@
 <?php
 include '../config.php';
 isAuthorizedAdmin();
+if(isset($_GET['action'])){
+    if($_GET['action'] == 'deleteBlog'){
+        deleteBlog($conn, $_GET['id'], $_SESSION['user']['id']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +22,7 @@ isAuthorizedAdmin();
     </style>
     <link href="./css/dashboard.css" rel="stylesheet">
 </head>
+
 <body>
     <?php include './includes/header.php'; ?>
     <div class="container-fluid">
@@ -29,14 +35,42 @@ isAuthorizedAdmin();
                     <div class="btn-toolbar mb-2 mb-md-0">
                         &nbsp;
                     </div>
-                </div>                
+                </div>
                 <div class="table-responsive">
-                <?php include './includes/message.php'; ?>
-                    Main Part
+                    <?php include './includes/message.php'; ?>
+                    <?php
+                    $sql = "SELECT * FROM `blogs`";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                    ?>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="70%">Title</th>
+                                    <th width="15%">Create At</th>
+                                    <th width="15%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                                    <tr>
+                                        <td><?= $row['title'] ?></td>
+                                        <td><?= date('d M Y', strtotime($row['created_at'])) ?></td>
+                                        <td>
+                                            <a class="btn" href="<?= APP_URL . '/admin/blog-edit.php?id=' . $row['id'] ?>">Edit</a> |
+                                            <a class="btn" href="<?= APP_URL . '/admin/blogs.php?action=deleteBlog&id=' . $row['id'] ?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    <?php
+                    }
+                    ?>
                 </div>
             </main>
         </div>
-    </div>    
+    </div>
 </body>
 
 </html>
