@@ -1,5 +1,6 @@
 {
     "require": {
-        "fakerphp/faker": "*"
+        "fakerphp/faker": "*",
+        "yidas/pagination": "^1.0"
     }
 }

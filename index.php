@@ -1,4 +1,5 @@
 <?php include 'config.php'; ?>
+
 <!DOCTYPE HTML>
 <!--
 	Forty by HTML5 UP
@@ -24,22 +25,37 @@
 		<h1>Blogs</h1>
 	</header>
 	<?php
-	$sql = "SELECT * FROM `blogs`";
+	// pagination start, first find total rows to calculate pagination pages
+	$paginationSql = "SELECT count(*) FROM `blogs`";
+	$paginationResult = mysqli_query($conn, $paginationSql);
+	$recordCount = mysqli_fetch_column($paginationResult);
+	$pagination = new yidas\data\Pagination(['totalCount' => $recordCount,'perPage' => 5]);
+
+	// this is actual query which fetch data with limit
+	$sql = "SELECT * FROM `blogs` LIMIT {$pagination->offset}, {$pagination->limit}";
 	$result = mysqli_query($conn, $sql);
+
 	if (mysqli_num_rows($result) > 0) {
 	?>
 		<?php while ($row = mysqli_fetch_assoc($result)) { ?>
 			<div class="blogRow">
 				<div class="">
 					<div class="blogTitle">
-						<a href="<?=APP_URL.'/blog-detail.php?id='.$row['id']?>">
+						<a href="<?= APP_URL . '/blog-detail.php?id=' . $row['id'] ?>">
 							<?= $row['title'] ?>
 						</a>
 					</div>
 					<div class="blogAddDate"><?= date('d M Y', strtotime($row['created_at'])) ?></div>
 				</div>
 			</div>
-		<?php } ?>
+		<?php
+		}
+		// last is patination widget to display links
+		echo \yidas\widgets\Pagination::widget([
+			'pagination' => $pagination,
+			'view' => 'simple'
+		]);
+		?>
 
 	<?php
 	}

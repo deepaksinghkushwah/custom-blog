@@ -39,12 +39,20 @@ if(isset($_GET['action'])){
                 <div class="table-responsive">
                     <?php include './includes/message.php'; ?>
                     <?php
-                    $sql = "SELECT * FROM `blogs`";
+                    $paginationSql = "SELECT count(*) FROM `blogs`";
+                    $paginationResult = mysqli_query($conn, $paginationSql);
+                    $recordCount = mysqli_fetch_column($paginationResult);
+                    $pagination = new yidas\data\Pagination(['totalCount' => $recordCount,'perPage' => 5]);
+                
+                    // this is actual query which fetch data with limit
+                    $sql = "SELECT * FROM `blogs` LIMIT {$pagination->offset}, {$pagination->limit}";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
+                        echo  "<p>Showing {$pagination->page} out of {$pagination->pageCount} page(s), Total {$pagination->totalCount} Records</p>";
                     ?>
                         <table class="table table-bordered">
                             <thead>
+                                
                                 <tr>
                                     <th width="70%">Title</th>
                                     <th width="15%">Create At</th>
@@ -63,6 +71,18 @@ if(isset($_GET['action'])){
                                     </tr>
                                 <?php } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3">
+                                        <?php                                        
+                                        echo \yidas\widgets\Pagination::widget([
+                                            'pagination' => $pagination,
+                                            'buttonCount' => 5                                            
+                                        ]);
+                                        ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     <?php
                     }
