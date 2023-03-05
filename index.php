@@ -1,4 +1,7 @@
-<?php include 'config.php'; ?>
+<?php 
+include 'config.php'; 
+$sortBy = isset($_GET['sortBy']) ? $_GET['sortBy'] : 'id';
+?>
 
 <!DOCTYPE HTML>
 <!--
@@ -23,16 +26,53 @@
 
 	<header class="major">
 		<h1>Blogs</h1>
+
 	</header>
+	<form method="get" action="" name="searchForm" id="searchForm">
+		<table>
+			<tr>
+				<td width="50%"><input type="text" name="searchString" id="" placeholder="Search blogs..."></td>
+				<td width="20%" style="vertical-align: top;">
+					<select name="sortBy" id="">
+						<optgroup style="color: black;" label="Sort Data Via (Desending Order)">
+						<option <?=$sortBy == 'id' ? 'selected' : '';?> value="id">ID</option>
+						<option <?=$sortBy == 'title' ? 'selected' : '';?> value="title">Title</option>
+						<option <?=$sortBy == 'created_at' ? 'selected' : '';?> value="created_at">Date</option>
+						</optgroup>
+					</select>
+				</td>
+				<td width="30%" style="vertical-align: top;">
+					<button type="submit" name="btnSearch">Search</button>
+					<button type="button" onclick="javascript:window.location = '<?= APP_URL ?>/index.php'">Reset</button>
+				</td>
+				
+			</tr>
+		</table>
+	</form>
 	<?php
 	// pagination start, first find total rows to calculate pagination pages
-	$paginationSql = "SELECT count(*) FROM `blogs`";
+	$paginationSql = "SELECT count(*) FROM `blogs` WHERE id > 0 ";
+	if (isset($_GET['btnSearch'])) {
+		$searchString = trim($_GET['searchString']);
+		if ($searchString != '') {
+			$paginationSql .= " AND `title` LIKE '%$searchString%' ";
+		}
+	}
 	$paginationResult = mysqli_query($conn, $paginationSql);
 	$recordCount = mysqli_fetch_column($paginationResult);
-	$pagination = new yidas\data\Pagination(['totalCount' => $recordCount,'perPage' => 5]);
+	$pagination = new yidas\data\Pagination(['totalCount' => $recordCount, 'perPage' => 5]);
 
 	// this is actual query which fetch data with limit
-	$sql = "SELECT * FROM `blogs` LIMIT {$pagination->offset}, {$pagination->limit}";
+	$sql = "SELECT * FROM `blogs` WHERE id > 0 ";
+	if (isset($_GET['btnSearch'])) {
+		$searchString = trim($_GET['searchString']);
+		if ($searchString != '') {
+			$sql .= " AND `title` LIKE '%$searchString%' ";
+		}
+	}
+	$sql .= " ORDER BY `$sortBy` DESC ";
+	$sql .= " LIMIT {$pagination->offset}, {$pagination->limit} ";
+
 	$result = mysqli_query($conn, $sql);
 
 	if (mysqli_num_rows($result) > 0) {
