@@ -40,4 +40,4 @@
         <!-- One -->
         <section id="one">
             <div class="inner">
-                <?php include './includes/message.php'; ?>
+                <?php include SITE_FS_PATH.'/includes/message.php'; ?>
