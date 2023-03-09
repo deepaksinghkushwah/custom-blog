@@ -1,6 +1,15 @@
 <?php
 include '../config.php';
 isAuthorizedAdmin();
+if(isset($_GET['action'])){
+    $action = $_GET['action'];
+    if($action == 'deleteUser'){
+        mysqli_query($conn, "DELETE FROM `users` WHERE `id` = '".$_GET['id']."'");
+        $_SESSION['msg'] = "User Deleted";
+        header('location: '.APP_URL.'/admin/users.php');
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +41,34 @@ isAuthorizedAdmin();
                 </div>                
                 <div class="table-responsive">
                 <?php include './includes/message.php'; ?>
-                    Main Part
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <?php
+                    $sql = "SELECT * FROM `users`";
+                    $results = mysqli_query($conn, $sql);
+                    if(mysqli_num_rows($results) > 0){
+                        while($row = mysqli_fetch_assoc($results)){
+                            ?>
+                            <tr>
+                                <td><?=$row['email']?></td>
+                                <td><?=$row['username']?></td>
+                                <td>
+                                    <a href="<?=APP_URL.'/admin/user-edit.php?id='.$row['id']?>" title="Edit"><i class="bi bi-pencil"></i></a>
+                                    <a href="javascript:void(0);" onclick="javascript:if(confirm('Are you sure want to delete?')) { window.location.href='<?=APP_URL.'/admin/users.php?id='.$row['id'].'&action=deleteUser'?>'}" title="Delete"><i class="bi bi-trash"></i></a>
+                                    <a href="<?=APP_URL.'/admin/user-change-password.php?id='.$row['id']?>" title="Change Password"><i class="bi bi-fingerprint"></i></a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                    </table>
                 </div>
             </main>
         </div>
