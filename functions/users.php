@@ -66,7 +66,7 @@ function regiterUser($conn, $username, $password, $email)
 
 function login($conn, $username, $password)
 {
-    $sql = "SELECT * FROM `users` WHERE `username` = '$username'";
+    $sql = "SELECT * FROM `users` WHERE `username` = '$username' AND `status` = 1";
     $result = mysqli_query($conn, $sql);
     if ($result) {
         $user = mysqli_fetch_assoc($result);
